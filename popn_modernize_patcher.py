@@ -3365,6 +3365,15 @@ CHARA_TABLES = {
 }
 
 
+# 英語表示用のキャラ名 {serial: {ID: 名前}} (chara_data.json)。無い ID は日本語名で代用する。
+CHARA_EN = {
+    'SLPM-65208_459970FC': {0: 'DINO', 2: 'WARU', 4: 'YURI', 6: 'SUIMIN', 7: 'RAVE', 9: 'SANAE', 11: 'NANA', 13: 'NYAMI', 15: 'MIMI', 17: 'MARY', 19: 'KING', 21: 'BAMBOO', 23: 'SEBAO', 25: 'PEPE', 27: 'HIME', 29: 'SARU', 31: 'JUDY', 33: 'DISCO', 35: 'CYBER', 37: 'GRAM', 39: 'POET', 41: 'YUNTA', 43: 'ZIZZ', 45: 'TERUO', 47: 'PRETTY', 49: 'PEETAN', 51: 'BALI', 53: 'ART', 55: 'ATTICK', 57: 'RIE7', 59: 'SHOWA', 61: 'CHEE', 63: 'ROCK', 65: 'RINGO', 67: 'RIZET', 69: 'COOKIE', 71: 'ASH', 73: 'MZD', 75: 'MZD1 NIGHTOUT', 76: 'MZD2 VISUAL2', 77: 'MZD3 J GARAGE', 78: 'MZD4 NEWAGE', 79: 'ALL NIGHT', 80: 'YAMATO', 81: 'PROJECT', 82: 'BERUBARA', 83: 'RAM', 84: 'CHU', 85: 'RIE5', 86: 'LING LING3', 87: 'JOHN CS', 88: 'JOHN CS', 89: 'JUDY5 CS', 90: 'WAC P5', 91: 'PAL P4', 92: 'SANAE P4', 93: 'ICE P4', 94: 'MZD P4', 95: 'MR KK', 96: 'SUIT', 97: 'HAMA3', 98: 'BOY3 CS', 99: 'BOY6 CS', 100: 'VANT CS', 102: 'AGEHA', 104: 'SAN5', 106: 'HAMA1', 107: 'HAMA2', 108: 'BOY5', 109: 'BOY4', 110: 'ANZU', 112: 'UOWO', 114: 'TROPPIE', 116: 'DICK', 118: 'JUDY', 120: 'SHOLLKEE', 122: 'MILLY', 124: 'DRAGON', 126: 'MIMIP', 128: 'ROMA', 130: 'FAT', 132: 'MOKKY', 134: 'INU', 136: 'MUTSUKI', 138: 'RACHEL', 140: 'LEICARS', 142: 'HAMA5', 143: 'HAMA4', 144: 'ROSE', 146: '7AGEHA', 148: 'FUKI', 150: 'SUMIRE', 152: 'CYLVIE', 154: 'GYORGY_EVA', 156: 'KOYAMA', 158: 'EVER', 160: 'MACHU', 162: 'CANDY', 164: 'KELLY', 166: 'P1P2', 168: 'VANT', 170: 'MOE', 172: 'STUDY MIMI', 174: 'STUDY NYAMI'},
+    'SLPM-65316_18B64A1A': {5: 'MZD', 7: 'GRAM', 9: 'YUNTA', 11: 'BALI', 13: 'ASH', 15: 'SANAE', 17: 'RAVE', 19: 'NYAMI', 21: 'MIMI', 23: 'MARY', 25: 'KING', 27: 'BAMBOO', 29: 'MYU NYU', 30: 'YU NYU', 31: 'EDYPT', 33: 'OL', 35: 'COOK', 37: 'SHINOBI', 39: 'TEMPULA2002', 41: 'RIE8', 43: 'MUYU', 45: 'JIG', 47: 'TORUMALIN', 49: 'YAQ', 51: 'EEL', 53: 'PSY', 55: 'PUNK', 57: 'WALTS', 59: 'ALT', 61: 'UKULELE', 63: 'TAKA', 65: 'SANAE8', 67: 'RETRO', 69: 'MEDLAY', 71: 'SHOWYA', 73: 'YULI', 75: 'RISSETE', 77: 'ASH8', 79: 'SISYAMO', 81: 'NAOKI', 83: 'TOUCH', 84: 'CAPTAIN', 85: 'HERO', 86: 'CURRY', 87: 'SYAKA', 88: 'ONI', 89: 'GYABAN', 90: 'ROSE', 91: 'ROKU', 92: 'WAC', 93: 'MAY', 94: 'FAT BOY', 95: 'SUGI', 96: 'REO', 97: 'ASH5', 98: 'OTOKO', 99: 'POET 4', 100: 'GROOVE', 101: 'KING 4', 102: 'ASH 4', 103: 'HAMA', 104: 'BOY', 105: 'ROMANCE KAYOU', 106: 'TOROPPY', 107: 'HOUSE MIMI', 108: 'BOA', 109: 'SCAT', 110: 'SF GIRL', 111: 'AYA 4', 112: 'JUNE', 113: 'WALL', 114: 'SALSA', 115: 'DDR', 116: 'MANHATTAN', 117: 'USAO', 118: 'LISA', 119: 'MOBOMOGA', 120: 'CASSANDRA', 121: 'JET', 122: 'STARS', 123: 'LINUS', 124: 'ANUBIS', 125: 'BEILEI', 127: 'ELLE', 129: 'GREEN', 131: 'HAMA', 133: 'HIGU', 135: 'ICE', 137: 'KOYAMA', 139: 'LINA', 141: 'MAYFA', 143: 'MAKOTO', 145: 'MARRY', 147: 'MATI', 149: 'MUGI', 151: 'PAUL', 153: 'SUKU', 155: 'SUNNY', 157: 'MUTSUKI8', 159: 'RURI', 161: 'LEICARS', 163: 'AGEHA', 165: 'FUKI', 167: 'MOE', 169: 'KOYAMA7', 171: 'STMIMI'},
+    'SLPM-65508_DFBAFDE3': {0: 'ANNIE_9A', 2: 'IVAN_9A', 4: 'IKKEI_10A', 6: 'UOWO_9A', 8: 'UPA_9A', 10: 'EMA_9A', 12: 'MZD_9A', 14: 'ELLE_4A', 16: 'OLIVE_1A', 18: 'OLIVE_5A', 20: 'KAGETORA_9A', 22: 'KAGOME_7A', 24: 'KIRARA_9A', 26: 'CANDY_3A', 28: 'KRAFT_1A', 30: 'KURUMI_9A', 32: 'KEVIN_5A', 34: 'KOBE_CSA', 36: 'COOK_8A', 38: 'KOYAMA_8A', 40: 'SANAE_5A', 42: 'SANAE_8A', 44: 'SANAE_9A', 46: 'SUNNY_CSA', 48: 'JEFF_9A', 50: 'ZIZZ_9A', 52: 'JUDY_5A', 54: 'JUDY_8A', 56: 'JUDY_9A', 58: 'SILVIA_9A', 60: 'SYLVESTER_CSA', 62: 'SOUJI_9A', 64: 'CHARLY_1A', 66: 'TURARA_9A', 68: 'TORU_1A', 70: 'TOME_9A', 72: 'TRAN_6A', 74: 'TRAN_9A', 76: 'NINA_9A', 78: 'NYAMI_6A', 80: 'NYAMI_9A', 82: 'NAN_9A', 84: 'HAMA_8A', 86: 'HAYATO_9A', 88: 'P1P2_3A', 90: 'BIS_9A', 92: 'HIRO_2A', 94: 'FORCE_9A', 96: 'FOXY_10A', 98: 'BRONSON_9A', 100: 'BELL_9A', 102: 'HENRY_4A', 104: 'POET_3A', 106: 'POET_4A', 108: 'POET_9A', 110: 'HOSE_5A', 112: 'POPPERS_9A', 114: 'BOB_9A', 116: 'MAKOTO_5A', 118: 'MATILDA_A', 120: 'MACHU_CSA', 122: 'CHR_MARY_9A', 124: 'MISAKI_10A', 126: 'MUGI_A', 128: 'MIMI_9A', 130: 'MAYFA_A', 132: 'MEME_9A', 134: 'YOSHIO_7A', 136: 'RIE_9A', 138: 'RISETTE_7A', 140: 'RAVE_4A', 142: 'ROKU_6A', 144: 'ROKU_9A', 146: 'ALICE_C9A', 148: 'MARY_7A', 150: 'ELLE_8A', 152: 'TETRA_C9A', 154: 'SHARK_C9A', 156: 'MORRY_C9A', 158: 'JAGUAR_C9A', 160: 'POTO_C9A', 162: 'HAMA_9A', 164: 'LUCY_C9A', 166: 'FURLONG_C9A', 168: 'ROBITZ_C9A', 170: 'HUGH_C9A', 172: 'PRETTY_BA', 174: 'SOLA_C9A', 176: 'TOBYS_C9A', 178: 'RURI_C9A', 180: 'HOSHIO_C9A', 182: 'POET_7A', 184: 'KILI_C9A', 186: 'ASH_7A', 188: 'AGEHA_7A', 190: 'SUMIRE_6A', 192: 'NANASORA_A', 194: 'BBONE', 195: 'MZD_OKINAWA', 196: 'MZD_HITEN', 197: 'MZD_MELOW', 198: 'MZD_SHOWA', 199: '009', 200: 'OBAQ', 201: 'CATS', 202: 'HONE', 203: 'COMPUTER', 204: 'YOSHIMOTO', 205: 'LOBSTER', 206: 'YUKI_4A', 207: 'YUKI_4B', 208: 'MIMI_5A', 209: 'MIMI_5B', 210: 'EDWARD_2A', 211: 'EDWARD_2B', 212: 'YURI_6A', 213: 'YURI_6B', 214: 'CUP_KUN', 215: 'WARUDOC_6A', 216: 'WARUDOC_6B', 218: 'KAGOME_7B_LNG', 220: 'ELLE_4B_LNG', 222: 'YOSHIO_7B_LNG', 224: 'POET_3B', 226: 'SANAE_5B', 228: 'RISETTE_7B_LNG', 230: 'ROKU_6B', 232: 'UOWO_9B', 234: 'SUMIRE_6B_LNG', 236: 'NANASORA_B_LNG', 238: 'EDWARD_2B_LNG'},
+    'SLPM-62288_098E1539': {0: 'Nyami', 2: 'Mimi', 4: 'Mary', 6: 'the KING'},
+}
+
+
 # 2P カラー(ID+1)を持たないキャラ: 次の ID が別キャラとして存在するもの (chara_data.json から算出)
 CHARA_NO2P = {
     'SLPM-65208_459970FC': set([6, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 106, 107, 108, 109, 142, 143]),
@@ -3393,11 +3402,21 @@ def load_chara_tables():
                     cur = dict(tables.get(serial, []))
                     for r in rows:
                         cur[_to_id(r["id"])] = str(r["name"])
+                        CHARA_EN.setdefault(serial, {})[_to_id(r["id"])] = str(r["name"])   # 指定した名前は英語表示でも使う
                     tables[serial] = sorted(cur.items())
         except Exception as e:  # noqa
             err = T("characters.json の読み込みに失敗: %s", "Failed to load characters.json: %s") % e
     CHARA_TABLES.update(tables)   # DefaultChara.build の説明文でも同じ表を使う
     return tables, err
+
+
+def chara_table(serial):
+    """表示言語に合わせたキャラ表 [(ID, 名前)]。英語表示で英名が無い ID は日本語名で代用"""
+    ja = CHARA_TABLES.get(serial, [])
+    if LANG != "en":
+        return list(ja)
+    en = CHARA_EN.get(serial, {})
+    return [(i, (en[i] + (" *" if n.endswith(" *") else "")) if en.get(i) else n) for i, n in ja]
 
 
 def chara_label(cid, name):
@@ -3443,7 +3462,7 @@ class DefaultChara(Feature):
         cid = int((p.get("chara") or {}).get(serial, orig))
         if not 0 <= cid <= 0xFFFF:
             raise ValueError("Default Character: ID out of range")
-        table = dict(CHARA_TABLES.get(serial, []))
+        table = dict(chara_table(serial))
         base = cid
         two_p = bool((p.get("chara2p") or {}).get(serial)) and cid not in CHARA_NO2P.get(serial, ()) and cid < 0xFFFF
         if two_p:
@@ -3689,7 +3708,8 @@ def _run_gui_once():
     from tkinter import ttk, filedialog, messagebox, simpledialog
 
     extra, extra_err = load_extra()
-    chara_tables, chara_err = load_chara_tables()
+    chara_err = load_chara_tables()[1]
+    chara_tables = {s: chara_table(s) for s in CHARA_PATCH}
     extra_err = extra_err or chara_err
     features = sorted(FEATURES + extra, key=lambda f: f.order)
 
@@ -3763,6 +3783,7 @@ def _run_gui_once():
     canvas.bind("<Leave>", lambda e: canvas.unbind_all("<MouseWheel>"))
 
     feat_vars, param_vars, info, chara_vars, chara2p_vars = {}, {}, {}, {}, {}
+    chara2p_cbs = {}
     wrap_labels = []
     last_group = None
     for f in features:
@@ -3800,7 +3821,9 @@ def _run_gui_once():
                 cb.grid(row=3 + j, column=1, columnspan=2, sticky="w")
                 bv = tk.BooleanVar(value=False)
                 chara2p_vars[serial] = bv
-                ttk.Checkbutton(box, text=T("2P カラー", "2P colour"), variable=bv, command=lambda: refresh()).grid(row=3 + j, column=3, sticky="w", padx=6)
+                cb2 = ttk.Checkbutton(box, text=T("2P カラー", "2P colour"), variable=bv, command=lambda: refresh())
+                cb2.grid(row=3 + j, column=3, sticky="w", padx=6)
+                chara2p_cbs[serial] = cb2
                 sv.trace_add("write", lambda *a: refresh())
         il = ttk.Label(box, text="", foreground="#a60", justify="left")
         il.grid(row=10, column=0, columnspan=4, sticky="w", padx=24)
@@ -3870,7 +3893,22 @@ def _run_gui_once():
             out[f.id] = d
         return out
 
+    def sync_chara2p():
+        """2P カラーのないキャラを選んでいるタイトルは、2P のチェックを外してグレーアウトする"""
+        for serial, cb2 in chara2p_cbs.items():
+            try:
+                cid = parse_chara(chara_vars[serial].get(), chara_tables.get(serial, []))
+            except ValueError:
+                cid = None
+            if cid is not None and (cid in CHARA_NO2P.get(serial, ()) or cid >= 0xFFFF):
+                if chara2p_vars[serial].get():
+                    chara2p_vars[serial].set(False)
+                cb2.state(["disabled"])
+            else:
+                cb2.state(["!disabled"])
+
     def refresh():
+        sync_chara2p()
         params, sers = get_params(), sel_serials()
         for f in features:
             msg = ""
