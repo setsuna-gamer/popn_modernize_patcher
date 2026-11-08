@@ -3158,6 +3158,10 @@ FEAT_EN = {
     "jstep": ("Judge adjustment in 4ms steps",
               "13 / 14 only. Note: previously saved offset values must be re-entered."),
     "barline": ("Bar lines OFF", "Do not draw bar lines (8 only)."),
+    "defchara": ("Default character on the select screen",
+                 "Changes the character selected first on the character select screen (7 / 8 / 9 / BEST HITS). "
+                 "For characters not in the list, type a hex ID such as 0x15. Tick the 2P box for the 2P colour (ID+1; ignored for characters without one). Behaviour with locked characters is unverified. "
+                 "Boot the game from scratch (loading a save state does not apply it)."),
     "p480": ("480p output (experimental)",
              "Outputs 480p at 512 width. Set the PCSX2 aspect ratio to 4:3 and boot the game from scratch. "
              "7/9/10/11 are unverified; BEST HITS blackout during loading is unverified."),
@@ -3335,8 +3339,125 @@ class ExtraFeature(Feature):
         return self.section, ["author=popn_modernize_patcher"] + [t.format(value=v) for t in self.titles[serial]]
 
 
+# --------------------------------------------------------------------------
+# キャラ選択の初期キャラ (Default Character)
+# --------------------------------------------------------------------------
+# 既存 pnach の [Default Character] から抽出: {serial: (元の既定ID, [(アドレス, 命令上位16bit)])}
+# 値は  命令上位16bit + ID(4桁16進)  = MIPS の addiu 即値  (例: 2402 0006 = addiu v0,zero,6)
+CHARA_PATCH = {
+    "SLPM-62288_098E1539": (0x00, [("0015F970", "2402"), ("001600A4", "2406"), ("00160648", "2402"), ("00160A04", "2402")]),
+    "SLPM-65208_459970FC": (0x11, [("0012D2E0", "2402"), ("0012D570", "2402")]),
+    "SLPM-65316_18B64A1A": (0x17, [("0012A370", "2402"), ("001A6000", "2402")]),
+    "SLPM-65508_DFBAFDE3": (0x80, [("00137D8C", "2402"), ("00138A34", "2402"), ("00156404", "2402"),
+                                   ("001A492C", "2403"), ("001ABAE4", "2402")]),
+}
+
+# タイトルごとのキャラ表 {serial: [(ID, 名前)]} (chara_data.json の ID + popnfever のキャラ一覧の日本語名)。
+# 名前末尾の * は解禁条件あり(8 / BEST HITS)。(n) は登場バージョン。9 は内部ラベルからの対応づけで画面表示と異なる場合がある。
+# 名前を特定できなかったキャラは内部名(英語)のまま。
+# アプリと同じフォルダの characters.json で追加・上書きできる:
+#   {"SLPM-65316_18B64A1A": [{"id": 27, "name": "BAMBOO"}, {"id": "0x17", "name": "MARY"}]}
+CHARA_TABLES = {
+    'SLPM-65208_459970FC': [(0, 'ディーノ'), (2, 'ワルドック'), (4, 'ユリちゃん'), (7, 'レイヴガール'), (9, 'さなえちゃん'), (11, 'ナナ'), (13, 'ニャミ'), (15, 'ミミ'), (17, 'マリィ'), (19, 'キング'), (21, 'バンブー'), (23, 'セバスちゃん'), (25, 'ペペ'), (27, 'かごめ'), (29, 'ヤンヤン'), (31, 'ジュディ'), (33, 'サンディ'), (35, 'サイバー'), (37, 'プリンスM'), (39, 'ポエット'), (41, 'ユンタ'), (43, 'ジズ'), (45, 'テルオ'), (47, 'プリティ'), (49, 'ピータン'), (51, 'シャラ'), (53, 'ウォーカー'), (55, 'ニナ'), (57, 'リエちゃん'), (59, 'ムラサキ'), (61, 'ナンシー'), (63, 'ヨシオ'), (65, 'マック'), (67, 'リゼット'), (69, 'クッキー'), (71, 'アッシュ'), (73, 'MZD'), (100, 'ヴァンテーン(CS)'), (102, 'アゲハ'), (104, 'さなえちゃん'), (106, 'ハマノフ'), (108, 'ボゥイ'), (110, 'アンズ'), (112, 'ウオヲ'), (114, 'トロッピー'), (116, 'ディック'), (118, 'ジュディ'), (120, 'ショルキー'), (122, 'ミリィ'), (124, 'ドラゴン'), (126, 'ミミ'), (128, 'ロマ'), (130, 'ファットボーイ'), (132, 'ザ・モッキー'), (134, 'いぬ千代'), (136, 'ムツキ'), (138, 'レイチェル'), (140, 'ライカーズ'), (144, 'W.B.ローズ'), (146, 'アゲハ'), (148, 'ふき'), (150, 'スミレ'), (152, 'シルヴィー'), (154, 'ジョルジュ&エバ'), (156, '小山明美'), (158, 'ヒグラシ'), (160, 'マッチュッチュ'), (162, 'キャンディ'), (164, 'ケリー'), (166, 'P-1&P-2'), (168, 'ヴァンテーン'), (170, 'もえ'), (172, 'ミミ(スタディ)'), (174, 'ニャミ(スタディ)')],
+    'SLPM-65316_18B64A1A': [(5, 'MZD'), (7, 'プリンスM'), (9, 'ユンタ'), (11, 'シャラ'), (13, 'アッシュ'), (15, 'さなえちゃん'), (17, 'レイヴガール'), (19, 'ニャミ'), (21, 'ミミ'), (23, 'マリィ'), (25, 'キング'), (27, 'バンブー'), (29, 'ニュー・ミュー'), (30, 'ニュー・ミュー(2)'), (31, 'パピルス'), (33, 'モモコさん'), (35, 'ロビン&クック *'), (37, 'シノビアン'), (39, 'TEMPULA2002'), (41, 'リエちゃん'), (43, 'MUYU'), (45, 'JIG'), (47, 'トルマリン'), (49, 'YAQ'), (51, 'EEL'), (53, 'PSY'), (55, 'PUNK'), (57, 'WALTS'), (59, 'アルト'), (61, 'UKULELE'), (63, 'TAKA'), (65, 'さなえちゃん *'), (67, 'RETRO'), (71, 'SHOWYA'), (73, 'ユーリ'), (75, 'リゼット'), (77, 'アッシュ'), (79, 'ししゃも'), (81, 'NAOKI'), (103, 'ハマノフ'), (104, 'ボウイ *'), (105, 'ROMANCE KAYOU *'), (106, 'トロッピー *'), (107, 'HOUSE MIMI *'), (108, 'BOA *'), (109, 'SCAT *'), (110, 'SF GIRL *'), (111, 'アヤ *'), (112, 'ジュライ *'), (113, 'WALL *'), (114, 'SALSA *'), (115, 'DDR *'), (116, 'MANHATTAN *'), (117, 'ウサおくん *'), (118, 'リサ *'), (119, 'MOBOMOGA *'), (120, 'CASSANDRA *'), (121, 'JET *'), (122, 'テクノスターズ *'), (123, 'LINUS *'), (124, 'ANUBIS *'), (125, 'BeiLei'), (127, 'エル'), (129, 'グリーン'), (131, 'ハマノフ'), (133, 'ヒグラシ'), (135, 'アイス'), (137, '小山明美 *'), (139, 'リナ'), (141, 'メイファ *'), (143, 'マコト *'), (145, 'マリィ'), (147, 'マチルダ *'), (149, 'むぎばたけ *'), (151, 'ポール'), (153, 'スクーリオン'), (155, 'サニー'), (157, '睦月'), (159, 'るり'), (161, 'ライカーズ'), (163, 'アゲハ'), (165, 'ふき'), (167, 'もえ'), (169, '小山明美'), (171, 'ミミ(スタディ)')],
+    'SLPM-65508_DFBAFDE3': [(0, 'アニー'), (2, 'イワン'), (4, 'IKKEI_10A'), (6, 'ウオヲ'), (8, 'ウパ'), (10, 'エマ'), (12, 'MZD(9)'), (14, 'エル(4)'), (16, 'オリビア(1)'), (18, 'オリビア(5)'), (20, 'カゲトラ'), (22, 'かごめ'), (24, 'キララ'), (26, 'キャンディ'), (28, 'クラフト(1)'), (30, 'クルミ'), (32, 'ケビン'), (34, 'コービー'), (36, 'ロビン&クック'), (38, '小山明美'), (40, 'さなえちゃん(5)'), (42, 'さなえちゃん(8)'), (44, 'さなえちゃん(9)'), (46, 'サニー'), (48, 'ジェフ'), (50, 'ジズ(9)'), (52, 'ジュディ(5)'), (54, 'ジュディ(8)'), (56, 'ジュディ(9)'), (58, 'シルビア'), (60, 'シルヴェスター'), (62, 'ソウジ'), (64, 'チャーリー'), (66, 'ツララ'), (68, 'カミカゼトオル'), (70, 'MC.トメ'), (72, 'トラン(6)'), (74, 'トラン(9)'), (76, 'ニナ(9)'), (78, 'ニャミ(6)'), (80, 'ニャミ(9)'), (82, 'ナン'), (84, 'ハマノフ(8)'), (86, 'ハヤト'), (88, 'P-1&P-2(3)'), (90, 'Bis子'), (92, 'ジングウヒロシ'), (94, 'フォース'), (96, 'フォクシー(10)'), (98, 'ブロンソン'), (100, 'ベル(9)'), (102, 'ヘンリー'), (104, 'ポエット(3)'), (106, 'ポエット(4)'), (108, 'ポエット(9)'), (110, 'ホセ'), (112, 'ポッパーズ(9)'), (114, 'BoB 2002'), (116, 'マコト'), (118, 'マチルダ'), (120, 'マッチュッチュ'), (122, 'マリィ(9)'), (124, 'ミサキ(10)'), (126, 'むぎばたけ'), (128, 'ミミ(9)'), (130, 'メイ・ファ'), (132, 'メメ'), (134, 'ヨシオ'), (136, 'リエちゃん(9)'), (138, 'リゼット(7)'), (140, 'レイヴガール(4)'), (142, '六(6)'), (144, '六(9)'), (146, 'アリス'), (148, 'マリィ(7)'), (150, 'エル(8)'), (152, 'テトラ'), (154, 'シャーク'), (156, 'モリー vs スーツ'), (158, 'ジャガー・B'), (160, 'ポト'), (162, 'ハマノフ(9)'), (164, 'ルーシー'), (166, 'ハロン'), (168, 'ロビッツ'), (170, 'ヒュー'), (172, 'プリティ(CS)'), (174, '翼'), (176, 'トビーズ'), (178, 'るり'), (180, 'ホシオ'), (182, 'ポエット(7)'), (184, 'キリ'), (186, 'アッシュ(7)'), (188, 'アゲハ'), (190, 'スミレ'), (192, 'ななことそらまめ'), (194, 'B・ボーン先生'), (195, 'MZD_OKINAWA'), (196, 'MZD_HITEN'), (197, 'MZD_MELOW'), (198, 'MZD_SHOWA'), (199, '009'), (200, 'OBAQ'), (201, 'CATS'), (202, 'ホネニャミ'), (203, 'COMPUTER'), (204, 'YOSHIMOTO'), (205, 'LOBSTER'), (206, 'ユキ(4)'), (207, 'ユキ(4) B'), (208, 'ミミ(5)'), (209, 'ミミ(5) B'), (210, 'エドワード'), (211, 'エドワード B'), (212, 'ユリちゃん'), (213, 'ユリちゃん B'), (214, 'カップくん'), (215, 'ワルドック'), (216, 'ワルドック B')],
+    'SLPM-62288_098E1539': [(0, 'ニャミ a1'), (2, 'ミミ a1'), (4, 'マリィ a1'), (6, 'キング a1'), (8, 'リエちゃん a1'), (10, 'リエちゃん a4s *'), (12, 'ジャムおじさん a1'), (14, 'バンブー a1'), (16, 'ニャミ a2'), (18, 'ミミ a2'), (20, 'マリィ a2'), (22, 'キング a2'), (24, 'ジュディ a2'), (26, 'スギくん a2'), (28, 'レオくん a5 *'), (30, 'タイマー a2'), (32, 'ユーリ c2'), (34, 'シンディ c2'), (36, 'ケリー c2'), (38, 'メイ・ファ c2'), (40, 'ニャミ a3'), (42, 'ミミ a3'), (44, 'マリィ a3'), (46, 'キング a3'), (48, 'リンリン a3'), (50, 'ボゥイ c2'), (52, 'ニャミ a4'), (54, 'ミミ a4'), (56, 'マリィ a4'), (58, 'キング a4'), (60, 'ジュディ a4'), (62, 'ポエット a4'), (64, 'ユーリ a4'), (66, 'さなえちゃん a4'), (68, 'アッシュ a4'), (70, 'アイス a4'), (72, 'スマイル a4'), (74, 'アントニオ c4'), (76, 'ハマノフ c2'), (78, 'ニャミ a5'), (80, 'ミミ a5'), (82, 'マリィ a5'), (84, 'キング a5'), (86, 'Mr.ケーケー a5'), (88, 'ショルキー a5'), (90, 'ジュディ a5'), (92, 'ワッキー a5'), (94, 'ベル a5'), (96, 'さなえちゃん a5 *'), (98, 'リエちゃん a5'), (100, 'スペース・マコ a5'), (102, 'アッシュ a5'), (104, 'ニャミ a6'), (106, 'ミミ a6'), (108, 'マリィ a6'), (110, 'キング a6'), (112, 'バンブー a6'), (114, '六 a6'), (116, 'トラン a6'), (118, 'スミレ c6'), (120, 'おとこマン a6'), (122, 'タイマー a6'), (124, 'アゲハ c5'), (126, 'ウオヲ c6'), (128, 'ＭＺＤ a7 *'), (130, 'プリティ cB1 *'), (132, 'アンズ cB1 *'), (134, 'ボゥイ cB1 *'), (136, 'リデル cB1 *'), (138, 'ニコ cB1')],
+}
+
+
+# 2P カラー(ID+1)を持たないキャラ: 次の ID が別キャラとして存在するもの (chara_data.json から算出)
+CHARA_NO2P = {
+    'SLPM-65208_459970FC': set([6, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 106, 107, 108, 109, 142, 143]),
+    'SLPM-65316_18B64A1A': set([29, 30, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124]),
+    'SLPM-65508_DFBAFDE3': set([194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215]),
+    'SLPM-62288_098E1539': set([]),
+}
+
+def _to_id(v):
+    if isinstance(v, int):
+        return v
+    return int(str(v).strip(), 16 if str(v).strip().lower().startswith("0x") else 10)
+
+
+def load_chara_tables():
+    """内蔵キャラ表 + characters.json -> ({serial: [(id, name)]}, エラー文字列 or None)"""
+    tables = {s: list(t) for s, t in CHARA_TABLES.items()}
+    path = os.path.join(APP_DIR, "characters.json")
+    err = None
+    if os.path.exists(path):
+        try:
+            with open(path, encoding="utf-8") as f:
+                for serial, rows in json.load(f).items():
+                    if serial not in CHARA_PATCH:
+                        continue
+                    cur = dict(tables.get(serial, []))
+                    for r in rows:
+                        cur[_to_id(r["id"])] = str(r["name"])
+                    tables[serial] = sorted(cur.items())
+        except Exception as e:  # noqa
+            err = T("characters.json の読み込みに失敗: %s", "Failed to load characters.json: %s") % e
+    CHARA_TABLES.update(tables)   # DefaultChara.build の説明文でも同じ表を使う
+    return tables, err
+
+
+def chara_label(cid, name):
+    return "0x%02X  %s" % (cid, name) if name else "0x%02X" % cid
+
+
+def parse_chara(text, table):
+    """コンボボックスの文字列 -> ID。'0x15  BAMBOO' / '0x15' / '21' / 'BAMBOO' を受け付ける。不正なら ValueError"""
+    t = (text or "").strip()
+    m = re.match(r"^0x([0-9A-Fa-f]{1,4})(\s|$)", t)
+    if m:
+        return int(m.group(1), 16)
+    for cid, nm in table:
+        if t and t.lower() == nm.lower():
+            return cid
+    if re.match(r"^[0-9]{1,5}$", t) and int(t) <= 0xFFFF:
+        return int(t)
+    raise ValueError(t)
+
+
+class DefaultChara(Feature):
+    id, name, order = "defchara", "キャラ選択の初期キャラを変更", 30
+    note = ("キャラクター選択画面で最初に選ばれているキャラを変更します（7 / 8 / 9 / BEST HITS）。"
+            "リストにないキャラは 0x15 のような16進IDを直接入力できます。「2P」にチェックすると2Pカラー（ID+1）になります（2Pカラーのないキャラでは無視）。未解禁キャラの挙動は未確認。"
+            "ゲームは最初から起動すること（ステートのロードでは反映されません）。")
+
+    def section_for(self, serial):
+        return {"name": "Default Character"} if serial in CHARA_PATCH else None
+
+    def clean_params(self, pd):
+        ch = pd.get("chara") if isinstance(pd.get("chara"), dict) else {}
+        out = {}
+        for s, (orig, _) in CHARA_PATCH.items():
+            try:
+                out[s] = min(max(int(ch.get(s, orig)), 0), 0xFFFF)
+            except (TypeError, ValueError):
+                out[s] = orig
+        c2 = pd.get("chara2p") if isinstance(pd.get("chara2p"), dict) else {}
+        return {"chara": out, "chara2p": {s: bool(c2.get(s, False)) for s in CHARA_PATCH}}
+
+    def build(self, serial, p):
+        orig, rows = CHARA_PATCH[serial]
+        cid = int((p.get("chara") or {}).get(serial, orig))
+        if not 0 <= cid <= 0xFFFF:
+            raise ValueError("Default Character: ID out of range")
+        table = dict(CHARA_TABLES.get(serial, []))
+        base = cid
+        two_p = bool((p.get("chara2p") or {}).get(serial)) and cid not in CHARA_NO2P.get(serial, ()) and cid < 0xFFFF
+        if two_p:
+            cid += 1   # 2P カラーは 1P の ID + 1
+        lines = ["description=キャラクター選択画面の初期キャラを 0x%02X%s%s にする(書き込む値 0x%02X)。元の既定値は 0x%02X%s。"
+                 "ゲームを最初から起動すること(ステートのロードでは反映されない)。"
+                 % (base, "(%s)" % table[base] if base in table else "", " の2Pカラー" if two_p else "", cid, orig, "(%s)" % table[orig] if orig in table else ""),
+                 "// 選択キャラIDの保存値を読み込む命令を、即値の addiu に置換"]
+        lines += ["patch=1,EE,%s,word,%s%04X" % (a, pre, cid) for a, pre in rows]
+        return "Default Character", lines
+
+
 FEATURES = [
-    CoolWindow(), KeyBeam(), LaneBrightness(), JudgeTiming(),
+    CoolWindow(), KeyBeam(), LaneBrightness(), JudgeTiming(), DefaultChara(),
     Verbatim("hispeed", "ハイスピード拡張", 20, "ハイスピードの選択肢を拡張（x8〜x10 / .5 刻み。タイトルにより内容が異なります）。"),
     Verbatim("coolall", "全モードで COOL 判定", 10, "全モードで COOL を有効化し、スコア・リザルト表示も COOL ありに揃える。7〜12 / BEST HITS。"),
     Verbatim("score", "スコア式を現行ポップン化", 1, "スコア=100000×(COOL×1.0+GREAT×0.7+GOOD×0.4)÷ポップ君総数。"),
@@ -3376,7 +3497,8 @@ SEC_RE = re.compile(r"^\s*\[(.+?)\]\s*$")
 NAME_PREFIX = [("HiSpeed", "hispeed"), ("Judge Timing Adjust", "jtime"), ("COOL Judge in All", "coolall"),
                ("Score Formula", "score"), ("No FEVER", "nofever"), ("PERFECT =", "perfect"),
                ("FREE COOL", "freecool"), ("Judge Adjust 4ms", "jstep"), ("Key Beam", "keybeam"),
-               ("Lane Brightness", "lane"), ("COOL Window", "coolwin"), ("480p", "p480"), ("Bar Lines", "barline")]
+               ("Lane Brightness", "lane"), ("COOL Window", "coolwin"), ("480p", "p480"), ("Bar Lines", "barline"),
+               ("Default Character", "defchara")]
 
 
 def classify(name):
@@ -3530,6 +3652,8 @@ def sanitize_config(cfg, features):
     for f in features:
         feats[f.id] = bool(fs.get(f.id, False))
         pd = ps.get(f.id) if isinstance(ps.get(f.id), dict) else {}
+        if hasattr(f, "clean_params"):
+            params[f.id] = f.clean_params(pd)
         for key, _label, lo, hi, dflt, _step, _unit in f.params:
             try:
                 v = float(pd.get(key, dflt))
@@ -3565,6 +3689,8 @@ def _run_gui_once():
     from tkinter import ttk, filedialog, messagebox, simpledialog
 
     extra, extra_err = load_extra()
+    chara_tables, chara_err = load_chara_tables()
+    extra_err = extra_err or chara_err
     features = sorted(FEATURES + extra, key=lambda f: f.order)
 
     root = tk.Tk()
@@ -3636,7 +3762,7 @@ def _run_gui_once():
     canvas.bind("<Enter>", lambda e: canvas.bind_all("<MouseWheel>", lambda ev: canvas.yview_scroll(int(-ev.delta / 120), "units")))
     canvas.bind("<Leave>", lambda e: canvas.unbind_all("<MouseWheel>"))
 
-    feat_vars, param_vars, info = {}, {}, {}
+    feat_vars, param_vars, info, chara_vars, chara2p_vars = {}, {}, {}, {}, {}
     wrap_labels = []
     last_group = None
     for f in features:
@@ -3663,6 +3789,19 @@ def _run_gui_once():
             ttk.Spinbox(box, from_=lo, to=hi, increment=step, textvariable=pv, width=8).grid(row=1 + i, column=1)
             ttk.Label(box, text=punit(f, f.params[i])).grid(row=1 + i, column=2, sticky="w", padx=4)
             pv.trace_add("write", lambda *a: refresh())
+        if f.id == "defchara":   # タイトルごとのキャラ選択（表から選ぶか 0x15 のように直接入力）
+            for j, serial in enumerate(CHARA_PATCH):
+                o = CHARA_PATCH[serial][0]
+                sv = tk.StringVar(value=chara_label(o, dict(chara_tables.get(serial, [])).get(o)))
+                chara_vars[serial] = sv
+                ttk.Label(box, text=SERIAL_TO_NAME[serial].replace("pop'n music ", "")).grid(row=3 + j, column=0, sticky="e", padx=(24, 4))
+                cb = ttk.Combobox(box, textvariable=sv, width=26,
+                                  values=[chara_label(c, n) for c, n in chara_tables.get(serial, [])])
+                cb.grid(row=3 + j, column=1, columnspan=2, sticky="w")
+                bv = tk.BooleanVar(value=False)
+                chara2p_vars[serial] = bv
+                ttk.Checkbutton(box, text=T("2P カラー", "2P colour"), variable=bv, command=lambda: refresh()).grid(row=3 + j, column=3, sticky="w", padx=6)
+                sv.trace_add("write", lambda *a: refresh())
         il = ttk.Label(box, text="", foreground="#a60", justify="left")
         il.grid(row=10, column=0, columnspan=4, sticky="w", padx=24)
         info[f.id] = il
@@ -3720,6 +3859,14 @@ def _run_gui_once():
                     d[key] = pv.get()
                 except tk.TclError:
                     d[key] = next(p[4] for p in f.params if p[0] == key)
+            if f.id == "defchara":
+                d["chara"] = {}
+                for serial, sv in chara_vars.items():
+                    try:
+                        d["chara"][serial] = parse_chara(sv.get(), chara_tables.get(serial, []))
+                    except ValueError:
+                        d["chara"][serial] = CHARA_PATCH[serial][0]   # 入力が不正なら元の既定値
+                d["chara2p"] = {serial: bool(bv.get()) for serial, bv in chara2p_vars.items()}
             out[f.id] = d
         return out
 
@@ -3827,7 +3974,14 @@ def _run_gui_once():
         for f in features:
             feat_vars[f.id].set(feats[f.id])
             for k, v in params.get(f.id, {}).items():
-                param_vars[f.id][k].set(v)
+                if k == "chara2p":
+                    for serial, b in v.items():
+                        chara2p_vars[serial].set(b)
+                elif k == "chara":
+                    for serial, cid in v.items():
+                        chara_vars[serial].set(chara_label(cid, dict(chara_tables.get(serial, [])).get(cid)))
+                else:
+                    param_vars[f.id][k].set(v)
         refresh()
 
     def save_all(lang=None):
@@ -3903,7 +4057,7 @@ def selftest():
     # 既定値で再生成したセクションが、元の pnach と一致することを確認
     for serial, d in DATA.items():
         for f in FEATURES:
-            if not f.supported(serial):
+            if not f.supported(serial) or f.id == "defchara":
                 continue
             orig = f.section_for(serial)
             p = {k: dflt for k, _, _, _, dflt, _, _ in f.params}
@@ -3956,6 +4110,28 @@ def selftest():
     assert s3 == "[EmuCore/GS]\nCropLeft = 0\nAspectRatio = 4:3\n\n[Other]\na = 1\n", repr(s3)
     s4, _ = set_ini_value("[Patches]\r\nEnable = X\r\n", "EmuCore/GS", "AspectRatio", "4:3")
     assert s4 == "[Patches]\r\nEnable = X\r\n\r\n[EmuCore/GS]\r\nAspectRatio = 4:3\r\n", repr(s4)
+    # Default Character: 既存 pnach の値と一致 / 入力解析 / 設定の検証
+    dc = DefaultChara()
+    n, ls = dc.build("SLPM-62288_098E1539", {"chara": {"SLPM-62288_098E1539": 6}})
+    assert n == "Default Character" and "patch=1,EE,001600A4,word,24060006" in ls and "patch=1,EE,0015F970,word,24020006" in ls
+    _, ls = dc.build("SLPM-65508_DFBAFDE3", {"chara": {"SLPM-65508_DFBAFDE3": 0x7A}})
+    assert "patch=1,EE,001A492C,word,2403007A" in ls and "patch=1,EE,00137D8C,word,2402007A" in ls
+    _, ls = dc.build("SLPM-65316_18B64A1A", {"chara": {"SLPM-65316_18B64A1A": 0x1B}})
+    assert [l for l in ls if l.startswith("patch=")] == ["patch=1,EE,0012A370,word,2402001B", "patch=1,EE,001A6000,word,2402001B"]
+    tb = CHARA_TABLES["SLPM-65208_459970FC"]
+    assert parse_chara("0x15  BAMBOO", tb) == 0x15 and parse_chara("バンブー", tb) == 0x15 and parse_chara("19", tb) == 19
+    try:
+        parse_chara("zzz", tb)
+        assert False
+    except ValueError:
+        pass
+    assert not DefaultChara().supported("SLPM-66533_4BD5C7E6") and DefaultChara().supported("SLPM-65208_459970FC")
+    _, ls = dc.build("SLPM-65508_DFBAFDE3", {"chara": {"SLPM-65508_DFBAFDE3": 0x7A}, "chara2p": {"SLPM-65508_DFBAFDE3": True}})
+    assert "patch=1,EE,00137D8C,word,2402007B" in ls and "patch=1,EE,001A492C,word,2403007B" in ls
+    _, ls = dc.build("SLPM-65316_18B64A1A", {"chara": {"SLPM-65316_18B64A1A": 104}, "chara2p": {"SLPM-65316_18B64A1A": True}})
+    assert "patch=1,EE,0012A370,word,24020068" in ls   # 2P カラーなしのキャラは +1 しない
+    f_, p_ = sanitize_config({"features": {"defchara": True}, "params": {"defchara": {"chara": {"SLPM-65316_18B64A1A": 999999}}}}, FEATURES)
+    assert p_["defchara"]["chara"]["SLPM-65316_18B64A1A"] == 0xFFFF and p_["defchara"]["chara"]["SLPM-65208_459970FC"] == 0x11
     print("selftest OK:", sum(len(d["sections"]) for d in DATA.values()), "sections")
 
 

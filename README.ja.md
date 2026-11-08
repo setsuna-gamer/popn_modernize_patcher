@@ -32,6 +32,7 @@ PS2 版 *pop'n music*（7〜14 FEVER! / BEST HITS）用の PCSX2 `.pnach` パッ
 - COOL 判定幅 25ms
 - 小節線 OFF
 - 480p テスト（実験的）
+- キャラ選択の初期キャラ変更（7 / 8 / 9 / BEST HITS。内蔵のキャラ表から選択、または16進IDを直接入力）
 
 内蔵パッチデータは、PCSX2 の patches フォルダにある既存の pnach を元にしています。
 UI は日本語/英語に対応し、設定はプリセットとして保存できます。
@@ -71,6 +72,8 @@ python popn_modernize_patcher.py --selftest
 ```
 
 オプション: プログラムと同じフォルダに `features_extra.json` を置くと、追加の機能定義として読み込まれます。
+同じ場所の `characters.json` でキャラ表を追加・上書きできます（内蔵の表は一部のみ）:
+`{"SLPM-65316_18B64A1A": [{"id": "0x1B", "name": "BAMBOO"}]}`
 
 ## ビルド
 

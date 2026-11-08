@@ -34,6 +34,7 @@ Available features depend on the title (some are only offered for certain games)
 - COOL window 25 ms
 - Bar lines OFF
 - 480p test (experimental)
+- Default character on the character select screen (7 / 8 / 9 / BEST HITS; pick from a built-in table or type a hex ID; 2P colour optional)
 
 The built-in patch data is based on existing pnach files from the PCSX2 patches folder.
 The UI supports Japanese and English, and settings can be saved as presets.
@@ -74,6 +75,8 @@ python popn_modernize_patcher.py --selftest
 
 Optional: `features_extra.json` placed next to the program is loaded as extra feature
 definitions.
+`characters.json` next to the program adds/overrides the character table:
+`{"SLPM-65316_18B64A1A": [{"id": "0x1B", "name": "BAMBOO"}]}`
 
 ## Build
 
