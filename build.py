@@ -10,8 +10,8 @@ import subprocess
 import sys
 from pathlib import Path
 
-NAME = "popn_patch_gui"
-SRC = "popn_patch_gui.py"
+NAME = "popn_modernize_patcher"
+SRC = "popn_modernize_patcher.py"
 ROOT = Path(__file__).resolve().parent
 OUT = ROOT / "release"
 

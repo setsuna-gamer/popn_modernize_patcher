@@ -1,4 +1,4 @@
-# popn_patch_gui
+# popn_modernize_patcher
 
 [English](README.md) | **日本語**
 
@@ -56,7 +56,7 @@ UI は日本語/英語に対応し、設定はプリセットとして保存で�
    ソースから実行します（Python 3.8+、標準ライブラリのみ、tkinter が必要）。
 
    ```
-   python popn_patch_gui.py
+   python popn_modernize_patcher.py
    ```
 
 2. PCSX2 のデータフォルダ（`patches` と `gamesettings` の親フォルダ）を選択します。
@@ -67,7 +67,7 @@ UI は日本語/英語に対応し、設定はプリセットとして保存で�
 内蔵データの整合テスト:
 
 ```
-python popn_patch_gui.py --selftest
+python popn_modernize_patcher.py --selftest
 ```
 
 オプション: プログラムと同じフォルダに `features_extra.json` を置くと、追加の機能定義として読み込まれます。

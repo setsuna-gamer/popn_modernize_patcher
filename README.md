@@ -1,4 +1,4 @@
-# popn_patch_gui
+# popn_modernize_patcher
 
 **English** | [日本語](README.ja.md)
 
@@ -58,7 +58,7 @@ The UI supports Japanese and English, and settings can be saved as presets.
    or run from source (Python 3.8+, standard library only, tkinter required):
 
    ```
-   python popn_patch_gui.py
+   python popn_modernize_patcher.py
    ```
 
 2. Select your PCSX2 data folder (the parent of `patches` and `gamesettings`).
@@ -69,7 +69,7 @@ The UI supports Japanese and English, and settings can be saved as presets.
 Self-test of the built-in data:
 
 ```
-python popn_patch_gui.py --selftest
+python popn_modernize_patcher.py --selftest
 ```
 
 Optional: `features_extra.json` placed next to the program is loaded as extra feature

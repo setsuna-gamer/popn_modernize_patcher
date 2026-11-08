@@ -10,7 +10,7 @@ __pycache__/
 venv/
 
 # ローカル設定 (実行時に生成)
-popn_patch_gui_settings.json
+popn_modernize_patcher_settings.json
 *.bak
 
 # OS / エディタ
