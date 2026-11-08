@@ -15,6 +15,8 @@ import os
 import re
 import sys
 
+VERSION = "1.0"
+
 # exe 化 (PyInstaller) 時は exe のあるフォルダ、通常はスクリプトのフォルダ
 if getattr(sys, "frozen", False):
     if sys.platform == "darwin":  # .app 内には書き込まない
@@ -3566,7 +3568,7 @@ def _run_gui_once():
     features = sorted(FEATURES + extra, key=lambda f: f.order)
 
     root = tk.Tk()
-    root.title(T("pop'n music PS2 pnach ジェネレータ", "pop'n music PS2 pnach generator"))
+    root.title(T("pop'n music PS2 pnach ジェネレータ", "pop'n music PS2 pnach generator") + " v" + VERSION)
     root.geometry("1500x860")
     root.columnconfigure(0, weight=1)
     root.rowconfigure(0, weight=1)
@@ -3958,7 +3960,9 @@ def selftest():
 
 
 if __name__ == "__main__":
-    if "--selftest" in sys.argv:
+    if "--version" in sys.argv:
+        print("popn_patch_gui v" + VERSION)
+    elif "--selftest" in sys.argv:
         selftest()
     else:
         run_gui()
