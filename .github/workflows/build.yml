@@ -23,7 +23,7 @@ jobs:
       - name: "Linux: tkinter"
         if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install -y python3-tk
-      - run: python popn_patch_gui.py --selftest
+      - run: python popn_modernize_patcher.py --selftest
       - run: python build.py
       - uses: actions/upload-artifact@v4
         with:

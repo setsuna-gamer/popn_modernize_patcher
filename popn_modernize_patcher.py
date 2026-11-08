@@ -7,8 +7,8 @@ PCSX2 の patches フォルダにある既存 pnach (ハイスピード拡張・
 実コードをタイトルごとに内蔵し、チェックした機能だけを pnach として出力します。
 数値で指定できる項目（COOL 判定幅・キービーム長・レーン明度・判定タイミング）は GUI で入力。
 
-  python popn_patch_gui.py             GUI 起動
-  python popn_patch_gui.py --selftest  内蔵データの整合テスト
+  python popn_modernize_patcher.py             GUI 起動
+  python popn_modernize_patcher.py --selftest  内蔵データの整合テスト
 """
 import json
 import os
@@ -20,7 +20,7 @@ VERSION = "1.0"
 # exe 化 (PyInstaller) 時は exe のあるフォルダ、通常はスクリプトのフォルダ
 if getattr(sys, "frozen", False):
     if sys.platform == "darwin":  # .app 内には書き込まない
-        APP_DIR = os.path.join(os.path.expanduser("~"), "Library", "Application Support", "popn_patch_gui")
+        APP_DIR = os.path.join(os.path.expanduser("~"), "Library", "Application Support", "popn_modernize_patcher")
         os.makedirs(APP_DIR, exist_ok=True)
     else:
         APP_DIR = os.path.dirname(os.path.abspath(sys.executable))
@@ -3244,7 +3244,7 @@ class CoolWindow(Feature):
             elif l.startswith("patch="):
                 raise ValueError("COOL Window: 想定外の行 %s" % l)
         eff = n * 1000.0 / UNIT_PER_SEC
-        lines = ["author=popn_patch_gui",
+        lines = ["author=popn_modernize_patcher",
                  "description=COOL 判定幅を内部値 +-%d (1/240s) = +-%.1fms にする。slti の即値だけを書き換える。" % (n, eff)] + out
         return "COOL Window %dms" % round(eff), lines
 
@@ -3332,7 +3332,7 @@ class ExtraFeature(Feature):
         v = p.get("value", 0)
         if self.params and float(self.params[0][5]).is_integer():
             v = int(round(v))
-        return self.section, ["author=popn_patch_gui"] + [t.format(value=v) for t in self.titles[serial]]
+        return self.section, ["author=popn_modernize_patcher"] + [t.format(value=v) for t in self.titles[serial]]
 
 
 FEATURES = [
@@ -3499,9 +3499,9 @@ def set_ini_value(text, section, key, value):
 
 
 # --------------------------------------------------------------------------
-# 設定の保存 / プリセット  (popn_patch_gui_settings.json, スクリプトと同じフォルダ)
+# 設定の保存 / プリセット  (popn_modernize_patcher_settings.json, スクリプトと同じフォルダ)
 # --------------------------------------------------------------------------
-SETTINGS_PATH = os.path.join(APP_DIR, "popn_patch_gui_settings.json")
+SETTINGS_PATH = os.path.join(APP_DIR, "popn_modernize_patcher_settings.json")
 
 
 def load_settings(path=SETTINGS_PATH):
@@ -3961,7 +3961,7 @@ def selftest():
 
 if __name__ == "__main__":
     if "--version" in sys.argv:
-        print("popn_patch_gui v" + VERSION)
+        print("popn_modernize_patcher v" + VERSION)
     elif "--selftest" in sys.argv:
         selftest()
     else:
