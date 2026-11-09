@@ -30,14 +30,14 @@ from collections import OrderedDict
 
 TITLES = OrderedDict([
     ("pop'n music 7",         "SLPM-65208_459970FC"),
+    ("pop'n music BEST HITS", "SLPM-62288_098E1539"),
     ("pop'n music 8",         "SLPM-65316_18B64A1A"),
-    ("pop'n music 9",         "SLPM-65508_DFBAFDE3"),
+    ("pop'n music 9",        "SLPM-65508_DFBAFDE3"),
     ("pop'n music 10",        "SLPM-65770_088871A6"),
     ("pop'n music 11",        "SLPM-66065_47F66D02"),
     ("pop'n music 12",        "SLPM-66314_35E0596E"),
     ("pop'n music 13",        "SLPM-66533_4BD5C7E6"),
     ("pop'n music 14 FEVER!", "SLPM-66742_632DB211"),
-    ("pop'n music BEST HITS", "SLPM-62288_098E1539"),
 ])
 SERIAL_TO_NAME = {v: k for k, v in TITLES.items()}
 
