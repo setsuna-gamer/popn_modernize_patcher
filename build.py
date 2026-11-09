@@ -14,6 +14,7 @@ NAME = "popn_modernize_patcher"
 SRC = "popn_modernize_patcher.py"
 ROOT = Path(__file__).resolve().parent
 OUT = ROOT / "release"
+DOCS = ["LICENSE", "README.md", "README.ja.md"]
 
 
 def main():
@@ -30,19 +31,32 @@ def main():
     cmd += ["--onedir"] if system == "Darwin" else ["--onefile"]
     subprocess.check_call(cmd + [SRC], cwd=ROOT)
 
+    # 配布物は <NAME>-<os>-<arch>/ フォルダにバイナリ + LICENSE + README をまとめて圧縮する
+    plat = {"Windows": "windows", "Darwin": "macos"}.get(system, "linux")
+    base = f"{NAME}-{plat}-{arch}"
+    stage = ROOT / "build" / "stage" / base
+    shutil.rmtree(stage.parent, ignore_errors=True)
+    stage.mkdir(parents=True)
     if system == "Windows":
-        dest = OUT / f"{NAME}-windows-{arch}.exe"
-        shutil.copy2(ROOT / "dist" / f"{NAME}.exe", dest)
+        shutil.copy2(ROOT / "dist" / f"{NAME}.exe", stage)
     elif system == "Darwin":
-        base = OUT / f"{NAME}-macos-{arch}"
-        # ditto は .app のシンボリックリンク/属性を保持する
-        subprocess.check_call(["ditto", "-c", "-k", "--keepParent",
-                               str(ROOT / "dist" / f"{NAME}.app"), str(base) + ".zip"])
-        dest = Path(str(base) + ".zip")
+        # .app のシンボリックリンク/属性を保持するため copytree(symlinks=True)
+        shutil.copytree(ROOT / "dist" / f"{NAME}.app", stage / f"{NAME}.app", symlinks=True)
     else:
-        dest = OUT / f"{NAME}-linux-{arch}"
-        shutil.copy2(ROOT / "dist" / NAME, dest)
-        dest.chmod(0o755)
+        shutil.copy2(ROOT / "dist" / NAME, stage / NAME)
+        (stage / NAME).chmod(0o755)
+    for doc in DOCS:
+        shutil.copy2(ROOT / doc, stage)
+
+    if system == "Darwin":
+        # ditto は .app のシンボリックリンク/属性を保持する
+        dest = OUT / f"{base}.zip"
+        subprocess.check_call(["ditto", "-c", "-k", "--keepParent", str(stage), str(dest)])
+    elif system == "Windows":
+        dest = Path(shutil.make_archive(str(OUT / base), "zip", stage.parent, base))
+    else:
+        # tar.gz は実行権限を保持する
+        dest = Path(shutil.make_archive(str(OUT / base), "gztar", stage.parent, base))
     print("OK:", dest)
 
 
