@@ -15,7 +15,7 @@ import os
 import re
 import sys
 
-VERSION = "1.0"
+VERSION = "1.1"
 
 # exe 化 (PyInstaller) 時は exe のあるフォルダ、通常はスクリプトのフォルダ
 if getattr(sys, "frozen", False):
