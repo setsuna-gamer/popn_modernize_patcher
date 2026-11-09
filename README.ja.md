@@ -31,6 +31,7 @@ PS2 版 *pop'n music*（7〜14 FEVER! / BEST HITS）用の PCSX2 `.pnach` パッ
 - レーン明度
 - COOL 判定幅 25ms
 - 小節線 OFF
+- オプション画面に BPM 表示（7 / BEST HITS）
 - 480p テスト（実験的）
 - キャラ選択の初期キャラ変更（7 / 8 / 9 / BEST HITS。内蔵のキャラ表から選択、または16進IDを直接入力）
 

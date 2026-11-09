@@ -33,6 +33,7 @@ Available features depend on the title (some are only offered for certain games)
 - Lane brightness
 - COOL window 25 ms
 - Bar lines OFF
+- BPM display on the option screen (7 / BEST HITS)
 - 480p test (experimental)
 - Default character on the character select screen (7 / 8 / 9 / BEST HITS; pick from a built-in table or type a hex ID; 2P colour optional)
 
