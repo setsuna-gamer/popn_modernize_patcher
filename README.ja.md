@@ -22,6 +22,7 @@ PS2 版 *pop'n music*（7〜14 FEVER! / BEST HITS）用の PCSX2 `.pnach` パッ
 タイトルにより利用できる機能は異なります。
 
 - ハイスピード拡張（x2〜x8 / x10、0.5 刻み。タイトルにより LOW あり）
+  - 追加オプション: オプション画面にハイスピードの値を表示（BEST HITS では BPM 表示も有効にする）
 - 判定タイミング調整
 - 全モードで COOL 判定
 - スコア計算式（現行 pop'n 方式）
@@ -32,7 +33,7 @@ PS2 版 *pop'n music*（7〜14 FEVER! / BEST HITS）用の PCSX2 `.pnach` パッ
 - COOL 判定幅 25ms
 - 小節線 OFF
 - オプション画面に BPM 表示（7 / BEST HITS）
-- 480p テスト（実験的）
+- 480p 出力
 - キャラ選択の初期キャラ変更（7 / 8 / 9 / BEST HITS。内蔵のキャラ表から選択、または16進IDを直接入力）
 
 内蔵パッチデータは、PCSX2 の patches フォルダにある既存の pnach を元にしています。

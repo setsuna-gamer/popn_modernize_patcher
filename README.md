@@ -24,6 +24,7 @@ values, and the tool writes a `.pnach` file into your PCSX2 `patches` folder.
 Available features depend on the title (some are only offered for certain games):
 
 - HiSpeed extension (x2–x8 / x10 in .5 steps; LOW on some titles)
+  - Optional: show the hi-speed value on the option screen (on BEST HITS also enable the BPM display)
 - Judge timing adjustment
 - COOL judge in all modes
 - Score formula (current pop'n style)
@@ -34,7 +35,7 @@ Available features depend on the title (some are only offered for certain games)
 - COOL window 25 ms
 - Bar lines OFF
 - BPM display on the option screen (7 / BEST HITS)
-- 480p test (experimental)
+- 480p output
 - Default character on the character select screen (7 / 8 / 9 / BEST HITS; pick from a built-in table or type a hex ID; 2P colour optional)
 
 The built-in patch data is based on existing pnach files from the PCSX2 patches folder.
