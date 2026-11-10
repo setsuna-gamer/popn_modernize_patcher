@@ -12976,7 +12976,7 @@ FEAT_EN = {
     "hispeed": ("Extended hi-speed",
                 "Extends the hi-speed choices (x8-x10 / .5 steps; contents differ by title)."),
     "hslabel": ("Show the hi-speed value on the option screen",
-                "Optional for extended hi-speed: draws the real value (.5 steps / x5 and above) on the hi-speed label of the option screen. "
+                "Optional for extended hi-speed (selectable only while it is enabled): draws the real value (.5 steps / x5 and above) on the hi-speed label of the option screen. "
                 "Without it the label shows the game's original art. On BEST HITS it requires \"Show BPM on the option screen\" (the label shares its hook). "
                 "Boot the game from scratch (loading a save state does not apply it)."),
     "coolall": ("COOL judgment in all modes",
@@ -13313,7 +13313,7 @@ FEATURES = [
     CoolWindow(), KeyBeam(), LaneBrightness(), JudgeTiming(), DefaultChara(),
     Verbatim("hispeed", "ハイスピード拡張", 20, "ハイスピードの選択肢を拡張（x8〜x10 / .5 刻み。タイトルにより内容が異なります）。"),
     Verbatim("hslabel", "オプション画面にハイスピードの値を表示", 20.5,
-             "ハイスピード拡張の追加オプション。オプション画面のハイスピード表示に、.5 刻みや x5 以上の実際の値を描き直します（無効だとゲーム純正の絵のまま）。"
+             "ハイスピード拡張の追加オプション（ハイスピード拡張が有効なときだけ選択できます）。オプション画面のハイスピード表示に、.5 刻みや x5 以上の実際の値を描き直します（無効だとゲーム純正の絵のまま）。"
              "BEST HITS では「オプション画面に BPM を表示」も有効にしてください（フックを共有）。ゲームは最初から起動すること（ステートのロードでは反映されません）。",
              parent="hispeed"),
     Verbatim("coolall", "全モードで COOL 判定", 10, "全モードで COOL を有効化し、スコア・リザルト表示も COOL ありに揃える。7〜12 / BEST HITS。"),
@@ -13584,8 +13584,13 @@ def _run_gui_once():
     lang_combo = ttk.Combobox(lf, textvariable=lang_var, values=["日本語", "English"], state="readonly", width=12)
     lang_combo.pack(anchor="w")
     lang_combo.bind("<<ComboboxSelected>>", lambda e: change_lang())
-    ttk.Button(bf, text=T("全選択", "Select all"), width=7, command=lambda: [v.set(True) for v in title_vars.values()] or refresh()).pack(side="left")
-    ttk.Button(bf, text=T("全解除", "Clear all"), width=7, command=lambda: [v.set(False) for v in title_vars.values()] or refresh()).pack(side="left", padx=4)
+    def set_titles(val):
+        for v in title_vars.values():
+            v.set(val)
+        refresh()
+
+    ttk.Button(bf, text=T("全選択", "Select all"), width=7, command=lambda: set_titles(True)).pack(side="left")
+    ttk.Button(bf, text=T("全解除", "Clear all"), width=7, command=lambda: set_titles(False)).pack(side="left", padx=4)
 
     # ---- 機能ペイン（スクロール可・縦いっぱいに表示）
     def set_feats(fs, val):
@@ -13623,7 +13628,7 @@ def _run_gui_once():
     canvas.bind("<Leave>", lambda e: canvas.unbind_all("<MouseWheel>"))
 
     feat_vars, param_vars, info, chara_vars, chara2p_vars = {}, {}, {}, {}, {}
-    boxes = {}
+    boxes, child_cbs = {}, {}
     chara2p_cbs = {}
     wrap_labels = []
     last_group = None
@@ -13634,8 +13639,10 @@ def _run_gui_once():
             v = tk.BooleanVar(value=False)
             feat_vars[f.id] = v
             param_vars[f.id] = {}
-            ttk.Checkbutton(pbox, text=T("追加オプション: ", "Option: ") + fname(f), variable=v,
-                            command=lambda: refresh()).grid(row=12, column=0, columnspan=4, sticky="w", padx=(24, 0), pady=(6, 0))
+            ccb = ttk.Checkbutton(pbox, text=T("追加オプション: ", "Option: ") + fname(f), variable=v,
+                                  command=lambda: refresh())
+            child_cbs[f.id] = (parent, ccb)
+            ccb.grid(row=12, column=0, columnspan=4, sticky="w", padx=(24, 0), pady=(6, 0))
             nl_ = ttk.Label(pbox, text=fnote(f), foreground="#777", justify="left")
             nl_.grid(row=13, column=0, columnspan=4, sticky="w", padx=44)
             il = ttk.Label(pbox, text="", foreground="#a60", justify="left")
@@ -13728,7 +13735,8 @@ def _run_gui_once():
         return [s for s, v in title_vars.items() if v.get()]
 
     def sel_features():
-        return [f for f in features if feat_vars[f.id].get()]
+        return [f for f in features if feat_vars[f.id].get()
+                and not (getattr(f, "parent", None) and not feat_vars[f.parent].get())]
 
     def get_params():
         out = {}
@@ -13764,8 +13772,18 @@ def _run_gui_once():
             else:
                 cb2.state(["!disabled"])
 
+    def sync_children():
+        """追加オプションは、親の機能（ハイスピード拡張）が有効なときだけ選べる。無効なら外してグレーアウト"""
+        for cid, (pid, ccb) in child_cbs.items():
+            if feat_vars[pid].get():
+                ccb.state(["!disabled"])
+            else:
+                feat_vars[cid].set(False)
+                ccb.state(["disabled"])
+
     def refresh():
         sync_chara2p()
+        sync_children()
         params, sers = get_params(), sel_serials()
         for f in features:
             msg = ""
