@@ -45,4 +45,5 @@ There is no linter and no way to run a single test: `selftest()` is one function
 - **Docs**: README.md (English) and README.ja.md (Japanese) mirror each other: feature list, supported-title table (serial / CRC), usage, backup behaviour, "cold boot, not save state" caveat. Update both together.
 - Commit messages are short imperative English sentences; git commits in this repo end with the `Co-Authored-By` trailer given by the harness.
 - **CLAUDE.md and AGENTS.md must stay byte-identical** (same content for Claude Code and other agents). Edit one, then `cp` it over the other; `--selftest` fails if they differ.
+- **Personal / confidential info** (names, emails, paths, tokens, private notes) must never go in CLAUDE.md, AGENTS.md or any tracked file. Put it in `CLAUDE.local.md` / `AGENT.local.md` (git-ignored, not shared) and read those for local context.
 - Windows is the primary dev environment (PowerShell/Git Bash); `selftest` and the GUI both run with plain `python`.

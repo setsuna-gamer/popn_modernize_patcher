@@ -24,3 +24,8 @@ release/
 
 # Claude Code
 .claude/
+
+# Personal/confidential notes (not shared)
+CLAUDE.local.md
+AGENT.local.md
+AGENTS.local.md
