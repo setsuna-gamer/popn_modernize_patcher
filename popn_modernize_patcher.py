@@ -14494,6 +14494,7 @@ FEAT_EN = {
                  "Boot the game from scratch (loading a save state does not apply it)."),
     "skipmode": ("Skip mode select etc. from title to FREE",
                  "Skips the mode select (and, depending on the title, character / button / SIDE select) after the title screen and goes straight to the FREE (TRAINING) music select. First time only (returning from music select shows the normal screens). "
+                 "On BEST HITS, character / line select are not skipped: to reach music select directly, turn CHARACTER SELECT and LINE SELECT OFF in the game's OPTION > SKIP setting. "
                  "Boot the game from scratch (loading a save state does not apply it)."),
     "skiptitle": ("Skip title menu",
                   "7 only. Skips the title menu (OPTION / GAME etc.) and treats it as GAME chosen, first time only. Use together with [Skip mode select etc.] to go from the title straight to music select (selectable only while that is enabled). "
@@ -14828,7 +14829,7 @@ FEATURES = [
     Verbatim("bpm", "オプション画面に BPM を表示", 6,
              "オプション画面の Next Music バナー右上に BPM（ソフラン曲は最小〜最大）を表示します（7 / BEST HITS のみ）。ゲームは最初から起動すること（ステートのロードでは反映されません）。"),
     Verbatim("skipmode", "タイトルからモード選択等を飛ばして FREE へ", 31,
-             "タイトル画面の次のモード選択（作品によりキャラ選択・ボタン選択・SIDE 選択も）を表示せず、FREE (TRAINING) のミュージックセレクトへ直接遷移します。初回のみ（ミュージックセレクトから戻ると通常の画面に戻ります）。ゲームは最初から起動すること（ステートのロードでは反映されません）。"),
+             "タイトル画面の次のモード選択（作品によりキャラ選択・ボタン選択・SIDE 選択も）を表示せず、FREE (TRAINING) のミュージックセレクトへ直接遷移します。初回のみ（ミュージックセレクトから戻ると通常の画面に戻ります）。BEST HITS はキャラ選択・ライン選択を飛ばさないため、直接ミュージックセレクトへ遷移するにはゲームの OPTION の SKIP 設定で CHARACTER SELECT と LINE SELECT を OFF にしてください。ゲームは最初から起動すること（ステートのロードでは反映されません）。"),
     Verbatim("skiptitle", "タイトルメニューを飛ばす", 32,
              "7 のみ。タイトル画面のメニュー(OPTION/GAME 等)を表示せず、初回のみ GAME 決定として扱います。[タイトルからモード選択等を飛ばしてFREEへ]と併用してタイトルから直接ミュージックセレクトへ（有効時のみ選択可）。ゲームは最初から起動すること。",
              parent="skipmode"),

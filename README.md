@@ -37,7 +37,7 @@ Available features depend on the title (some are only offered for certain games)
 - BPM display on the option screen (7 / BEST HITS; independent of the hi-speed value display)
 - 480p output
 - Default character on the character select screen (7 / 8 / 9 / BEST HITS; pick from a built-in table or type a hex ID; 2P colour optional)
-- Skip the mode select (and, depending on the title, character / button / SIDE select) after the title and go straight to the FREE music select (all titles; first time only)
+- Skip the mode select (and, depending on the title, character / button / SIDE select) after the title and go straight to the FREE music select (all titles; first time only; on BEST HITS, also set CHARACTER SELECT and LINE SELECT to OFF in the in-game OPTION > SKIP setting to go directly to music select)
   - Optional (7 only, selectable only while the above is enabled): also skip the title menu (OPTION / GAME)
 
 The built-in patch data is based on existing pnach files from the PCSX2 patches folder.
