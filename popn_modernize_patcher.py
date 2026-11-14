@@ -1674,7 +1674,7 @@ DATA = json.loads(r'''{
 "id": "skipmode",
 "lines": [
 "author=Claude",
-"description=GAME決定後、SIDE選択(Side-B固定)とMODE SELECTを表示せず初回のみ飛ばしFREE TRAININGのスタイル選択へ。キャンセルで戻ると通常画面。ゲームを最初から起動すること",
+"description=GAME決定後、SIDE選択(Side-B固定)とMODE SELECTを表示せず初回のみ飛ばしFREEのスタイル選択へ。キャンセルで戻ると通常画面。ゲームを最初から起動すること",
 "patch=1,EE,000FC000,word,14A00005",
 "patch=1,EE,000FC004,word,00000000",
 "patch=1,EE,000FC008,word,24030001",
@@ -2833,7 +2833,7 @@ DATA = json.loads(r'''{
 "id": "skipmode",
 "lines": [
 "author=Claude",
-"description=タイトル画面の次に、モード選択・キャラ選択・ボタン選択を飛ばして FREE TRAINING のミュージックセレクトへ直接遷移する。飛ばす際は黒へフェードアウトする。初回のみ(ミュージックセレクトから戻ると通常の画面に戻る)。ゲームを最初から起動すること(ステートのロードでは反映されない)",
+"description=タイトル画面の次に、モード選択・キャラ選択・ボタン選択を飛ばして FREE のミュージックセレクトへ直接遷移する。飛ばす際は黒へフェードアウトする。初回のみ(ミュージックセレクトから戻ると通常の画面に戻る)。ゲームを最初から起動すること(ステートのロードでは反映されない)",
 "patch=1,EE,000FC000,word,27BDFFF0",
 "patch=1,EE,000FC004,word,FFBF0000",
 "patch=1,EE,000FC008,word,24020001",
@@ -3819,7 +3819,7 @@ DATA = json.loads(r'''{
 "id": "skipmode",
 "lines": [
 "author=Claude",
-"description=タイトル画面の次に、モード選択・キャラ選択・ボタン選択を飛ばして FREE TRAINING のミュージックセレクトへ直接遷移する。飛ばす際は画面が止まらず黒へフェードアウトする。初回のみ(ミュージックセレクトから戻ると通常の画面に戻る)。ゲームを最初から起動すること(ステートのロードでは反映されない)",
+"description=タイトル画面の次に、モード選択・キャラ選択・ボタン選択を飛ばして FREE のミュージックセレクトへ直接遷移する。飛ばす際は画面が止まらず黒へフェードアウトする。初回のみ(ミュージックセレクトから戻ると通常の画面に戻る)。ゲームを最初から起動すること(ステートのロードでは反映されない)",
 "// Cave A 0xFC000: 初回のみモード選択のランナー(0x13AF4C)を飛ばし、モード=1(FREE)・結果=2(決定)をセットし MARK(0xFC100)=1, DONE(0xFC104)=1。その後フェードアウト(0x128970→0x1288C0/0x12ABE0で完了待ち)",
 "// Cave R 0xFC080: MARK=1の間だけ各ランナー呼び出し(0x12A670)を飛ばす(cafe 0x1A42F0 / キャラ 0x1A43A4,0x1A43E8 / 遷移 0x1A44E0 / ボタン 0x1A4528)",
 "// Cave C 0xFC0C0: ミュージックセレクト(0x145190)呼び出し時に MARK を解除",
@@ -14370,7 +14370,7 @@ DATA = json.loads(r'''{
 "id": "skipmode",
 "lines": [
 "author=Claude",
-"description=タイトル画面の次に、モード選択を飛ばし(キャラ選択・ライン選択はゲーム内 SKIP 設定に従う)、FREE TRAINING のミュージックセレクトへ直接遷移する。飛ばす際は黒へフェードアウトする。初回のみ(ミュージックセレクトから戻ると通常の画面に戻る)。ゲームを最初から起動すること(ステートのロードでは反映されない)",
+"description=タイトル画面の次に、モード選択を飛ばし(キャラ選択・ライン選択はゲーム内 SKIP 設定に従う)、FREE のミュージックセレクトへ直接遷移する。飛ばす際は黒へフェードアウトする。初回のみ(ミュージックセレクトから戻ると通常の画面に戻る)。ゲームを最初から起動すること(ステートのロードでは反映されない)",
 "patch=1,EE,000FC000,word,27BDFFF0",
 "patch=1,EE,000FC004,word,FFBF0000",
 "patch=1,EE,000FC008,word,24020003",
@@ -14493,7 +14493,7 @@ FEAT_EN = {
                  "For characters not in the list, type a hex ID such as 0x15. Tick the 2P box for the 2P colour (ID+1; ignored for characters without one). Behaviour with locked characters is unverified. "
                  "Boot the game from scratch (loading a save state does not apply it)."),
     "skipmode": ("Skip mode select etc. from title to FREE",
-                 "Skips the mode select (and, depending on the title, character / button / SIDE select) after the title screen and goes straight to the FREE (TRAINING) music select. First time only (returning from music select shows the normal screens). "
+                 "Skips the mode select (and, depending on the title, character / button / SIDE select) after the title screen and goes straight to the FREE music select. First time only (returning from music select shows the normal screens). "
                  "On BEST HITS, character / line select are not skipped: to reach music select directly, turn CHARACTER SELECT and LINE SELECT OFF in the game's OPTION > SKIP setting. "
                  "Boot the game from scratch (loading a save state does not apply it)."),
     "skiptitle": ("Skip title menu",
@@ -14829,7 +14829,7 @@ FEATURES = [
     Verbatim("bpm", "オプション画面に BPM を表示", 6,
              "オプション画面の Next Music バナー右上に BPM（ソフラン曲は最小〜最大）を表示します（7 / BEST HITS のみ）。ゲームは最初から起動すること（ステートのロードでは反映されません）。"),
     Verbatim("skipmode", "タイトルからモード選択等を飛ばして FREE へ", 31,
-             "タイトル画面の次のモード選択（作品によりキャラ選択・ボタン選択・SIDE 選択も）を表示せず、FREE (TRAINING) のミュージックセレクトへ直接遷移します。初回のみ（ミュージックセレクトから戻ると通常の画面に戻ります）。BEST HITS はキャラ選択・ライン選択を飛ばさないため、直接ミュージックセレクトへ遷移するにはゲームの OPTION の SKIP 設定で CHARACTER SELECT と LINE SELECT を OFF にしてください。ゲームは最初から起動すること（ステートのロードでは反映されません）。"),
+             "タイトル画面の次のモード選択（作品によりキャラ選択・ボタン選択・SIDE 選択も）を表示せず、FREE のミュージックセレクトへ直接遷移します。初回のみ（ミュージックセレクトから戻ると通常の画面に戻ります）。BEST HITS はキャラ選択・ライン選択を飛ばさないため、直接ミュージックセレクトへ遷移するにはゲームの OPTION の SKIP 設定で CHARACTER SELECT と LINE SELECT を OFF にしてください。ゲームは最初から起動すること（ステートのロードでは反映されません）。"),
     Verbatim("skiptitle", "タイトルメニューを飛ばす", 32,
              "7 のみ。タイトル画面のメニュー(OPTION/GAME 等)を表示せず、初回のみ GAME 決定として扱います。[タイトルからモード選択等を飛ばしてFREEへ]と併用してタイトルから直接ミュージックセレクトへ（有効時のみ選択可）。ゲームは最初から起動すること。",
              parent="skipmode"),
