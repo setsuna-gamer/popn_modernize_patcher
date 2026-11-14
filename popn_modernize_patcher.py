@@ -13210,7 +13210,7 @@ FEAT_EN = {
     "freecool": ("FREE COOL default ON", "13 / 14 only."),
     "jstep": ("Judge adjustment in 4ms steps",
               "13 / 14 only. Note: previously saved offset values must be re-entered."),
-    "barline": ("Bar lines OFF", "Do not draw bar lines (8 only)."),
+    "barline": ("Bar lines OFF", "Do not draw bar lines in Free Training mode (8 only)."),
     "bpm": ("Show BPM on the option screen",
             "Shows the BPM (min-max for variable-BPM songs) at the top right of the Next Music banner on the option screen (7 / BEST HITS only). Boot the game from scratch (loading a save state does not apply it)."),
     "defchara": ("Default character on the select screen",
@@ -13365,7 +13365,7 @@ class JudgeTiming(Feature):
 
 class Barline(Feature):
     id, name, order = "barline", "小節線 OFF", 4
-    note = "小節線を描画しない（8 のみ）。"
+    note = "フリートレーニングモードで小節線を描画しない（8 のみ）。"
 
 
 class P480(Feature):
