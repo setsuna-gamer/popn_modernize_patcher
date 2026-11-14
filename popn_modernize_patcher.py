@@ -14248,8 +14248,8 @@ def classify(name):
 
 
 def backup_path(path):
-    """世代別バックアップ: <元のパス>.bak_YYYYMMDD（同じ日の再出力は直前の内容で上書き）"""
-    return "%s.bak_%s" % (path, datetime.date.today().strftime("%Y%m%d"))
+    """世代別バックアップ: <元のパス>.bak_YYYYMMDDhhmmss（出力のたびに別ファイル）"""
+    return "%s.bak_%s" % (path, datetime.datetime.now().strftime("%Y%m%d%H%M%S"))
 
 
 def parse_pnach(text):
@@ -14608,10 +14608,10 @@ def _run_gui_once():
     gen_btn = ttk.Button(bottom, text=T("pnach を出力", "Write pnach"))
     gen_btn.grid(row=0, column=3, rowspan=2, padx=(12, 0), sticky="ns")
     merge = tk.BooleanVar(value=True)
-    ttk.Checkbutton(bottom, text=T("同名の pnach があれば、チェックしなかった機能のセクションは残して上書き（元ファイルは .bak_日付 に退避）", "If a pnach with the same name exists, keep sections of unchecked features and overwrite the rest (original saved as .bak_YYYYMMDD)"),
+    ttk.Checkbutton(bottom, text=T("同名の pnach があれば、チェックしなかった機能のセクションは残して上書き（元ファイルは .bak_日時 に退避）", "If a pnach with the same name exists, keep sections of unchecked features and overwrite the rest (original saved as .bak_YYYYMMDDhhmmss)"),
                     variable=merge).grid(row=1, column=0, columnspan=3, sticky="w")
     enable_ini = tk.BooleanVar(value=True)
-    ttk.Checkbutton(bottom, text=T("適用時に PCSX2 側のパッチも有効化する（gamesettings の .ini の [Patches] を更新。元ファイルは .bak_日付 に退避）", "Also enable the patches on the PCSX2 side (updates [Patches] in gamesettings .ini; original saved as .bak_YYYYMMDD)"),
+    ttk.Checkbutton(bottom, text=T("適用時に PCSX2 側のパッチも有効化する（gamesettings の .ini の [Patches] を更新。元ファイルは .bak_日時 に退避）", "Also enable the patches on the PCSX2 side (updates [Patches] in gamesettings .ini; original saved as .bak_YYYYMMDDhhmmss)"),
                     variable=enable_ini).grid(row=2, column=0, columnspan=3, sticky="w")
     status = tk.StringVar(value=extra_err or "")
     ttk.Label(bottom, textvariable=status, foreground="#a00").grid(row=3, column=0, columnspan=4, sticky="w")
@@ -14871,7 +14871,7 @@ def selftest():
                 a, b = lines, orig["lines"]
             assert a == b, (serial, f.id, [x for x in zip(a, b) if x[0] != x[1]][:3])
     # ハイスピード値表示 (hslabel): 7 以外に対応し、hispeed / bpm より後ろに出力される
-    assert re.fullmatch(r"x\.pnach\.bak_\d{8}", backup_path("x.pnach")), backup_path("x.pnach")
+    assert re.fullmatch(r"x\.pnach\.bak_\d{14}", backup_path("x.pnach")), backup_path("x.pnach")
     hf = {f.id: f for f in FEATURES}
     assert hf["hslabel"].supported("SLPM-65208_459970FC") and hf["hslabel"].supported("SLPM-62288_098E1539")
     tl, _, _ = build_pnach("SLPM-62288_098E1539", [hf["hslabel"], hf["hispeed"], hf["bpm"]], {})
