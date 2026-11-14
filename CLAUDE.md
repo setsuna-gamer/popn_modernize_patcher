@@ -44,4 +44,5 @@ There is no linter and no way to run a single test: `selftest()` is one function
 - **GUI text**: any new user-visible string needs both Japanese and English (`T(ja, en)`, or the `FEAT_EN` / `PARAM_EN` / `GROUP_EN` tables for feature names/params/groups). Select-all/clear-all for titles must refresh the preview.
 - **Docs**: README.md (English) and README.ja.md (Japanese) mirror each other: feature list, supported-title table (serial / CRC), usage, backup behaviour, "cold boot, not save state" caveat. Update both together.
 - Commit messages are short imperative English sentences; git commits in this repo end with the `Co-Authored-By` trailer given by the harness.
+- **CLAUDE.md and AGENTS.md must stay byte-identical** (same content for Claude Code and other agents). Edit one, then `cp` it over the other; `--selftest` fails if they differ.
 - Windows is the primary dev environment (PowerShell/Git Bash); `selftest` and the GUI both run with plain `python`.

@@ -15581,6 +15581,11 @@ def selftest():
     assert [s for s in TITLES.values() if hf["skiptitle"].supported(s)] == ["SLPM-65208_459970FC"]
     assert group_of(hf["skipmode"]) == "その他" and classify("Skip Title Menu (OPTION/GAME)") == "skiptitle"
     assert all(classify(hf["skipmode"].build(s, {})[0]) == "skipmode" for s in TITLES.values())
+    # CLAUDE.md と AGENTS.md は同一内容に保つ (両方がある場合のみ検査)
+    _docs = [os.path.join(APP_DIR, n) for n in ("CLAUDE.md", "AGENTS.md")]
+    if all(os.path.exists(x) for x in _docs):
+        with open(_docs[0], "rb") as a, open(_docs[1], "rb") as b:
+            assert a.read().replace(b"\r\n", b"\n") == b.read().replace(b"\r\n", b"\n"), "CLAUDE.md and AGENTS.md differ"
     print("selftest OK:", sum(len(d["sections"]) for d in DATA.values()), "sections")
 
 
