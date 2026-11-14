@@ -24,7 +24,7 @@ values, and the tool writes a `.pnach` file into your PCSX2 `patches` folder.
 Available features depend on the title (some are only offered for certain games):
 
 - HiSpeed extension (x1.5–x8 / x10 in .5 steps; LOW on some titles)
-  - Optional: show the hi-speed value on the option screen (on BEST HITS also enable the BPM display)
+  - Optional (selectable only while HiSpeed extension is enabled): show the real hi-speed value on the option screen
 - Judge timing adjustment
 - COOL judge in all modes
 - Score formula (current pop'n style)
@@ -33,8 +33,8 @@ Available features depend on the title (some are only offered for certain games)
 - Key beam length
 - Lane brightness
 - COOL window 25 ms
-- Bar lines OFF
-- BPM display on the option screen (7 / BEST HITS)
+- Bar lines OFF (do not draw bar lines in Free Training mode; 8 only)
+- BPM display on the option screen (7 / BEST HITS; independent of the hi-speed value display)
 - 480p output
 - Default character on the character select screen (7 / 8 / 9 / BEST HITS; pick from a built-in table or type a hex ID; 2P colour optional)
 
@@ -68,6 +68,13 @@ The UI supports Japanese and English, and settings can be saved as presets.
 3. Choose the title, tick the features, and enter any numeric values.
 4. Press the generate/write button. `patches/<serial>_<CRC>.pnach` is created.
 5. In PCSX2, enable patches (Settings → Emulation → Enable Cheats / Patches).
+
+Notes:
+
+- If a pnach of the same name already exists, sections of unchecked features are kept and the rest are overwritten.
+  The previous file is saved as `<name>.bak_YYYYMMDDhhmmss` (a new file every time; old ones are not deleted automatically).
+  The same applies to `gamesettings/<serial>.ini` when "enable patches on the PCSX2 side" is ticked.
+- BPM display, hi-speed value display and 480p do not apply when loading a save state; boot the game from scratch.
 
 Self-test of the built-in data:
 
