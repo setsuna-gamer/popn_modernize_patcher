@@ -23,7 +23,7 @@ values, and the tool writes a `.pnach` file into your PCSX2 `patches` folder.
 
 Available features depend on the title (some are only offered for certain games):
 
-- HiSpeed extension (x2–x8 / x10 in .5 steps; LOW on some titles)
+- HiSpeed extension (x1.5–x8 / x10 in .5 steps; LOW on some titles)
   - Optional: show the hi-speed value on the option screen (on BEST HITS also enable the BPM display)
 - Judge timing adjustment
 - COOL judge in all modes
