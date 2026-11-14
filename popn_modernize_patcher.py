@@ -14713,7 +14713,7 @@ def _run_gui_once():
             old = existing_for(s)
             text, notes, names = build_pnach(s, feats, params, old)
             path = os.path.join(pdir, s + ".pnach")
-            if old is not None and not os.path.exists(path + ".bak"):
+            if old is not None:
                 with open(path + ".bak", "w", encoding="utf-8", newline="") as fh:
                     fh.write(old)
             with open(path, "w", encoding="utf-8", newline="\n") as fh:
@@ -14736,7 +14736,7 @@ def _run_gui_once():
                 aspect = False
                 if any(n.startswith("480p") for n in names):
                     inew, aspect = set_ini_value(inew, "EmuCore/GS", "AspectRatio", "4:3")
-                if iold is not None and not os.path.exists(ipath + ".bak"):
+                if iold is not None:
                     with open(ipath + ".bak", "w", encoding="utf-8", newline="") as fh:
                         fh.write(iold)
                 with open(ipath, "w", encoding="utf-8", newline="") as fh:
